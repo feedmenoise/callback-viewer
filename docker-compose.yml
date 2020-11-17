@@ -1,0 +1,26 @@
+version: '3'
+
+services: 
+ nginx:
+  image: nginx:1-alpine
+  ports:
+   - "80:80"
+   - "443:443"
+  volumes: 
+   - ./nginx:/etc/nginx/conf.d
+   - ./logs:/var/log/nginx
+   - ./www:/usr/share/nginx/html
+   - ./rec:/rec
+ mariadb:
+  image: mariadb:latest
+  restart: always
+  environment:
+   MYSQL_ROOT_PASSWORD: zhopa13
+  volumes:
+   - ./mysql:/var/lib/mysql
+ php:
+  build: ./images/php
+  volumes:
+   - ./www:/usr/share/nginx/html
+   - ./rec:/rec
+   
